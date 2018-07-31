@@ -7,9 +7,9 @@
  Посмотрите как работает forEach и повторите это поведение для массива, который будет передан в параметре array
  */
 function forEach(array, fn) {
-	for (var i = 0; i < array.length; i++) {
-		fn(array[i], i, array);
-	}
+    for (var i = 0; i < array.length; i++) {
+        fn(array[i], i, array);
+    }
 }
 
 /*
@@ -19,13 +19,13 @@ function forEach(array, fn) {
  Посмотрите как работает map и повторите это поведение для массива, который будет передан в параметре array
  */
 function map(array, fn) {
-	var tempArray = [];
+    var tempArray = [];
 
-	for (var i = 0; i < array.length; i++) {
-		tempArray[i] = fn(array[i], i, array);
-	}
+    for (var i = 0; i < array.length; i++) {
+        tempArray[i] = fn(array[i], i, array);
+    }
 
-	return tempArray;
+    return tempArray;
 }
 
 /*
@@ -35,18 +35,18 @@ function map(array, fn) {
  Посмотрите как работает reduce и повторите это поведение для массива, который будет передан в параметре array
  */
 function reduce(array, fn, initial) {
-	var i = 0;
+    var i = 0;
 
-	if (initial === undefined) {
-		initial = array[0];
-		i = 1;
-	}
+    if (initial === undefined) {
+        initial = array[0];
+        i = 1;
+    }
 
-	for (i; i < array.length; i++) {
-		initial = fn(initial, array[i], i, array);
-	}
+    for (i; i < array.length; i++) {
+        initial = fn(initial, array[i], i, array);
+    }
 
-	return initial;
+    return initial;
 }
 
 /*
@@ -58,13 +58,15 @@ function reduce(array, fn, initial) {
    upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
  */
 function upperProps(obj) {
-	var tempArray = [];
+    var tempArray = [];
 
-	for (var key in obj) {
-		tempArray.push(key.toUpperCase());
-	}
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            tempArray.push(key.toUpperCase());
+        }
+    }
 
-	return tempArray;
+    return tempArray;
 }
 
 /*
@@ -74,29 +76,32 @@ function upperProps(obj) {
  Посмотрите как работает slice и повторите это поведение для массива, который будет передан в параметре array
  */
 function slice(array, from, to) {
-	var tempArray = [];
+    var tempArray = [];
 
-	if (from === undefined) {
-		from = 0;
-	}
-	if (to === undefined) {
-		to = array.length;
-	}
-	if (to > array.length) {
-		to = array.length;
-	}
-	if (from < 0) {
-		from = array.length + from;
-	}
-	if (to < 0) {
-		to = array.length + to;
-	}
+    if (from === undefined) {
+        from = 0;
+    }
+    if (to === undefined) {
+        to = array.length;
+    }
+    if (to > array.length) {
+        to = array.length;
+    }
+    if (from < 0 && from >= (array.length * -1)) {
+        from = array.length + from;
+    }
+    if (from < 0 && from < (array.length * -1)) {
+        from = 0;
+    }
+    if (to < 0) {
+        to = array.length + to;
+    }
 
-	for (var i = from; i < to; i++) {
-		tempArray.push(array[i]);
-	}
+    for (var i = from; i < to; i++) {
+        tempArray.push(array[i]);
+    }
 
-	return tempArray;
+    return tempArray;
 }
 
 /*
@@ -106,21 +111,22 @@ function slice(array, from, to) {
  Proxy должен перехватывать все попытки записи значений свойств и возводить это значение в квадрат
  */
 function createProxy(obj) {
-	var proxy = new Proxy(obj, {
-		set(target, prop, value) {
-			target[prop] = Math.pow(value,2);
-			return true;
-		}
-	});
+    var proxy = new Proxy(obj, {
+        set(target, prop, value) {
+            target[prop] = Math.pow(value, 2);
 
-	return proxy;
+            return true;
+        }
+    });
+
+    return proxy;
 }
 
 export {
-	forEach,
-	map,
-	reduce,
-	upperProps,
-	slice,
-	createProxy
+    forEach,
+    map,
+    reduce,
+    upperProps,
+    slice,
+    createProxy
 };
