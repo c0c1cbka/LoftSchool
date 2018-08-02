@@ -17,6 +17,21 @@
    isAllTrue([100, 2, 3, 4, 5], n => n < 10) // вернет false
  */
 function isAllTrue(array, fn) {
+	if (!Array.isArray(array) || array.length == 0) {
+		throw new Error('empty array');
+	}
+	if (typeof fn !== 'function') {
+		throw new Error('fn is not a function');
+	}
+
+	for (let i = 0; i < array.length; i++) {
+		if (fn(array[i]) == false) {
+
+			return false;
+		}
+	}
+
+	return true;
 }
 
 /*
@@ -36,6 +51,21 @@ function isAllTrue(array, fn) {
    isSomeTrue([1, 2, 3, 4, 5], n => n > 20) // вернет false
  */
 function isSomeTrue(array, fn) {
+	if (!Array.isArray(array) || array.length == 0) {
+		throw new Error('empty array');
+	}
+	if (typeof fn !== 'function') {
+		throw new Error('fn is not a function');
+	}
+
+	for (let i = 0; i < array.length; i++) {
+		if (fn(array[i]) == true) {
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 /*
@@ -50,6 +80,22 @@ function isSomeTrue(array, fn) {
    - fn не является функцией (с текстом "fn is not a function")
  */
 function returnBadArguments(fn) {
+	if (typeof fn !== 'function') {
+		throw new Error('fn is not a function');
+	}
+
+	let temp = [];
+	let arg = Array.from(arguments);
+
+	for (let i = 1; i < arg.length; i++) {
+		try {
+			fn(arg[i]);
+		} catch (e) {
+			temp.push(arg[i]);
+		}
+	}
+
+	return temp;
 }
 
 /*
@@ -69,14 +115,58 @@ function returnBadArguments(fn) {
    - number не является числом (с текстом "number is not a number")
    - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
-function calculator() {
+function calculator(number) {
+	if (number === undefined) {
+		number = 0;
+	}
+
+	if (typeof number !== 'number') {
+		throw new Error('number is not a number');
+	}
+
+	let tempArrayArguments = Array.from(arguments);
+	let tempObj = {
+		sum: function() {
+			let sum = number;
+			for (let i = 1; i < tempArrayArguments.length; i++) {
+				sum += tempArrayArguments[i];
+			}
+			return sum;
+		},
+		dif: function() {
+			let dif = number;
+			for (let i = 1; i < tempArrayArguments.length; i++) {
+				dif -= tempArrayArguments[i];
+			}
+			return dif;
+		},
+		div: function() {
+			let div = number;
+			for (let i = 1; i < tempArrayArguments.length; i++) {
+				if (tempArrayArguments[i] == 0 || div == 0) {
+					throw new Error('division by 0');
+				}
+				div = div / tempArrayArguments[i];
+			}
+			return div;
+		},
+		mul: function() {
+			let mul = number;
+			for (let i = 1; i < tempArrayArguments.length; i++) {
+				mul = mul * tempArrayArguments[i];
+			}
+			return mul;
+		}
+	};
+
+	return tempObj;
 }
 
 /* При решении задач, пострайтесь использовать отладчик */
 
 export {
-    isAllTrue,
-    isSomeTrue,
-    returnBadArguments,
-    calculator
+	isAllTrue,
+	isSomeTrue,
+	returnBadArguments,
+	calculator
 };
