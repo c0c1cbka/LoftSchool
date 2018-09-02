@@ -46,6 +46,7 @@ const listTable = homeworkContainer.querySelector('#list-table tbody');
 filterNameInput.addEventListener('keyup', function() {
 	// здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
 
+	loadTableCookies();
 
 
 });
@@ -59,11 +60,40 @@ addButton.addEventListener('click', () => {
 
 	document.cookie = addNameInput.value + '=' + addValueInput.value;
 
-	addElement(addNameInput.value, addValueInput.value);
+	loadTableCookies();
 
 	addNameInput.value = '';
 	addValueInput.value = '';
 });
+
+loadTableCookies();
+
+function loadTableCookies() {
+	let loadRezult = parsCookies(document.cookie);
+
+	listTable.innerHTML = '<tr><th>Имя куки</th><th>Значение куки</th><th>Удалить куки</th></tr>';
+
+	for (let name in loadRezult) {
+		if (filterNameInput.value != '') {
+			if (name.indexOf(filterNameInput.value) == -1 && loadRezult[name].indexOf(filterNameInput.value) == -1) {
+				continue;
+			}
+		}
+
+		addElement(name, loadRezult[name]);
+	}
+}
+
+
+function parsCookies(cookieStr) {
+	return cookieStr.split('; ').reduce((prev, current) => {
+		const [name, value] = current.split('=');
+
+		prev[name] = value;
+
+		return prev;
+	}, {});
+}
 
 function addElement(name, val) {
 	let tr = document.createElement('tr');
@@ -93,7 +123,7 @@ function addElement(name, val) {
 }
 
 function deleteCookie(name) {
-	setCookie(name, "", {
-		expires: -1
-	})
+	let cookieDate = new Date();
+	cookieDate.setTime(cookieDate.getTime() - 1);
+	document.cookie = name + '=; expires=' + cookieDate.toGMTString();
 }
