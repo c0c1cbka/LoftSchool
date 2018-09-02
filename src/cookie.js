@@ -44,9 +44,38 @@ const addButton = homeworkContainer.querySelector('#add-button');
 const listTable = homeworkContainer.querySelector('#list-table tbody');
 
 filterNameInput.addEventListener('keyup', function() {
-    // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
+	// здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
 });
 
 addButton.addEventListener('click', () => {
-    // здесь можно обработать нажатие на кнопку "добавить cookie"
+	// здесь можно обработать нажатие на кнопку "добавить cookie"
+	addElement(addNameInput.value, addValueInput.value);
 });
+
+
+function addElement(name, val) {
+	if (name === '' || val === '') {
+		console.error('Не все данные введены');
+		return;
+	}
+
+	let tr = document.createElement('tr');
+
+	let td = document.createElement('td');
+	td.innerHTML = name;
+
+	let td_2 = document.createElement('td');
+	td_2.innerHTML = val;
+
+	let btn = document.createElement('button');
+	btn.innerHTML = 'Удалить';
+	btn.addEventListener('click', () => {
+		addElement(addNameInput.value, addValueInput.value);
+	});
+
+	tr.appendChild(td);
+	tr.appendChild(td_2);
+	tr.appendChild(btn);
+
+	listTable.appendChild(tr);
+}
