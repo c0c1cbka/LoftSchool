@@ -45,20 +45,27 @@ const listTable = homeworkContainer.querySelector('#list-table tbody');
 
 filterNameInput.addEventListener('keyup', function() {
 	// здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
+
+
+
 });
 
 addButton.addEventListener('click', () => {
 	// здесь можно обработать нажатие на кнопку "добавить cookie"
-	addElement(addNameInput.value, addValueInput.value);
-});
-
-
-function addElement(name, val) {
-	if (name === '' || val === '') {
+	if (addNameInput.value === '' || addValueInput.value === '') {
 		console.error('Не все данные введены');
 		return;
 	}
 
+	document.cookie = addNameInput.value + '=' + addValueInput.value;
+
+	addElement(addNameInput.value, addValueInput.value);
+
+	addNameInput.value = '';
+	addValueInput.value = '';
+});
+
+function addElement(name, val) {
 	let tr = document.createElement('tr');
 
 	let td = document.createElement('td');
@@ -68,14 +75,25 @@ function addElement(name, val) {
 	td_2.innerHTML = val;
 
 	let btn = document.createElement('button');
+	btn.classList.add("btn");
 	btn.innerHTML = 'Удалить';
 	btn.addEventListener('click', () => {
-		addElement(addNameInput.value, addValueInput.value);
+		deleteCookie(name);
+		tr.remove();
 	});
+
+	let td_3 = document.createElement('td');
+	td_3.appendChild(btn);
 
 	tr.appendChild(td);
 	tr.appendChild(td_2);
-	tr.appendChild(btn);
+	tr.appendChild(td_3);
 
 	listTable.appendChild(tr);
+}
+
+function deleteCookie(name) {
+	setCookie(name, "", {
+		expires: -1
+	})
 }
