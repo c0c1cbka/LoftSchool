@@ -1,6 +1,6 @@
 ## LoftSchool study project
 
-- [ДЗ №1](https://github.com/c0c1cbka/LoftSchool]
+- [ДЗ №1](https://github.com/c0c1cbka/LoftSchool)
 - [ДЗ №2](https://github.com/c0c1cbka/LoftSchool/tree/%D0%94%D0%97_2)
 - [ДЗ №3](https://github.com/c0c1cbka/LoftSchool/tree/%D0%94%D0%97_3)
 - [ДЗ №4](https://github.com/c0c1cbka/LoftSchool/tree/%D0%94%D0%97_4)
